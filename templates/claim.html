@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CheXbot | Claim Verification</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f9f9f9; padding: 2rem; color: #333; max-width: 700px; margin: auto; }
+    .card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    h1 { font-size: 1.6rem; color: #111; }
+    .meta { margin-top: 0.5rem; font-size: 0.95rem; color: #666; }
+    .summary { margin-top: 1.25rem; background: #f0f0f0; padding: 1rem; border-radius: 8px; }
+    .sources { margin-top: 1.5rem; }
+    .sources ul { padding-left: 1.2rem; }
+    footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; color: #999; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>✅ Claim Verdict: {{ result.verdict }}</h1>
+    <div class="meta">Confidence: {{ result.confidence }}</div>
+
+    <div class="summary">
+      <strong>GPT Summary:</strong>
+      <p>{{ result.gpt_summary or 'No summary available.' }}</p>
+    </div>
+
+    {% if result.sources and result.sources|length > 0 %}
+    <div class="sources">
+      <strong>Sources:</strong>
+      <ul>
+        {% for source in result.sources %}
+          <li>{{ source }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+
+  <footer>
+    Shared by <strong>CheXbot</strong> | Real-time fact verification bot<br>
+    Follow us on X: <a href="https://x.com/CheXbot">@CheXbot</a>
+  </footer>
+</body>
+</html>
