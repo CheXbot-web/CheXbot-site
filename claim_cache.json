@@ -1,1 +1,10 @@
-{}
+{
+  "test123": {
+    "verdict": "False",
+    "confidence": 0.97,
+    "gpt_summary": "The Moon does not have a substantial atmosphere. It has a very sparse exosphere.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Atmosphere_of_the_Moon"
+    ]
+  }
+}
