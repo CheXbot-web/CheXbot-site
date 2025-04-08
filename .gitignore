@@ -26,3 +26,4 @@ failed_replies.log
 # Ignore virtual environments (optional)
 venv/
 env/
+x_keys.txt
