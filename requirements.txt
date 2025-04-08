@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 tweepy>=4.14.0
 transformers>=4.36.2
 openai>=1.11.0
@@ -8,4 +7,4 @@ beautifulsoup4>=4.12.3
 flask
 openai
 requests
->>>>>>> 636abebc0f73ac83fc7c6df4613e0c75f5187911
+
