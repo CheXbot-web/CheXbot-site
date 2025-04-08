@@ -1,0 +1,28 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment secrets
+.env
+
+# Local data files
+*.log
+*.sqlite3
+last_seen.json
+user_data.csv
+failed_replies.log
+
+# OS/IDE files
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Backup files
+*.bak
+*.tmp
+
+# Ignore virtual environments (optional)
+venv/
+env/

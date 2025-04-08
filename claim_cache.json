@@ -1,0 +1,161 @@
+{
+  "8ce6f53e074595cb76f2bd53fadfdf5edc003164fc31822639ff2ede9cb96e28": {
+    "claim": "The earth is flat",
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "model": "gpt-enhanced",
+    "sources": [
+      "Flat Earth - Wikipedia: By the early period of the Christian Church, the spherical view was widely held, with some notable exceptions. In contrast, ancient Chinese scholars\u00a0... (https://en.wikipedia.org/wiki/Flat_Earth)",
+      "Flat Earth | Theory, Model, Meaning, & Facts | Britannica: Feb 12, 2025 ... flat Earth ... flat Earth, the perception that Earth exists as a flat disk, either circular or square-shaped. This view persisted in the ancient\u00a0... (https://www.britannica.com/topic/flat-Earth)",
+      "Modern flat Earth beliefs - Wikipedia: The claims of modern flat Earth proponents are not based on scientific knowledge and are contrary to over two millennia of scientific consensus based on\u00a0... (https://en.wikipedia.org/wiki/Modern_flat_Earth_beliefs)"
+    ],
+    "gpt_summary": "False. The claim that the earth is flat is false, as it goes against scientific knowledge and consensus that has been established over centuries. Both historical and modern sources confirm that the earth is a spherical shape. The belief in a flat earth is considered a misconception and is not supported by evidence."
+  },
+  "d1b8be0b8fcc60b6ad68f7c0bf1ee727a6d7e00600535c6086c6d69c7f1d5054": {
+    "claim": "@EdKrassen @cheXbot: check this.",
+    "verdict": "misleading",
+    "confidence": 0.5129456520080566,
+    "model": "bart",
+    "sources": []
+  },
+  "c5821ba8fcd8bb98e599e5931ed8bf168943d8cf68c5007813405255bd13c0be": {
+    "claim": "@ChexBot check: Moons made of Swiss cheese.",
+    "verdict": "true",
+    "confidence": 0.5279223918914795,
+    "model": "bart",
+    "sources": []
+  },
+  "599c74b2d88f7294c2276d837c9653ca62b9bf308cf5628a8641abc5fba91ddc": {
+    "claim": "I disagree.",
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "model": "gpt-enhanced",
+    "sources": [
+      "I Disagree - Wikipedia: I Disagree ... I Disagree is the third studio album by American singer-songwriter Poppy. It was released on January 10, 2020, as her first album with Sumerian\u00a0... (https://en.wikipedia.org/wiki/I_Disagree)",
+      "File:I-disagree-with-u.jpg - Wikipedia: I-disagree-with-u.jpg (685 \u00d7 390 pixels, file size: 65 KB, MIME type: image/jpeg). While the license of this userspace image or media file may be compliant\u00a0... (https://en.wikipedia.org/wiki/File:I-disagree-with-u.jpg)",
+      "Disagree and commit - Wikipedia: Disagree and commit ... Disagree and commit is a management principle that individuals are allowed to disagree while a decision is being made, but that once a\u00a0... (https://en.wikipedia.org/wiki/Disagree_and_commit)"
+    ],
+    "gpt_summary": "The claim is true. The context provided does not give any indication of disagreement with the statement \"I Disagree,\" but rather provides information about an album by Poppy titled \"I Disagree.\" Therefore, the claim of disagreement is unrelated to the context provided."
+  },
+  "38bd5349244dffdb1772dcef3412f5d9aef7a4bbd2b7bd66c129fdf6f3e65f99": {
+    "claim": "@Metabolic_Mind  check it out.",
+    "verdict": "true",
+    "confidence": 0.860306441783905,
+    "model": "bart",
+    "sources": []
+  },
+  "cc5f51d833d29874c03cafbff713531e4557d13e1fbf5f725c1b2ee790386d20": {
+    "claim": "@Chexbot Check: measle cases are the highest they have been in decades.",
+    "verdict": "true",
+    "confidence": 0.8532482981681824,
+    "model": "bart",
+    "sources": []
+  },
+  "931a477987b8fe480d339510b6b85741488b26ef6d9c3aa19348f48cbed09bd6": {
+    "claim": "@ChildrensHD  is this true?",
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "model": "gpt-enhanced",
+    "sources": [
+      "Children's Health Defense - Wikipedia: His actual income from Children's Health Defense was thus $836,571 in 2022, while the 2023 figure of $326,056 appears to be correct. Income from previous\u00a0... (https://en.wikipedia.org/wiki/Children%27s_Health_Defense)",
+      "Injection Protects Babies from RSV Hospitalization, Has Not Been ...: Aug 18, 2023 ... \u201cEven though there are very few children who die of RSV bronchiolitis, that is correct, it still typically results in two or three days of\u00a0... (https://www.factcheck.org/2023/08/scicheck-injection-protects-babies-from-rsv-hospitalization-has-not-been-linked-to-deaths/)"
+    ],
+    "gpt_summary": "The claim is true. The information provided in the context from the search results supports the claim that the income of $836,571 in 2022 for Children's Health Defense is accurate. This information is sourced from Wikipedia, which is a reliable source for factual information. Therefore, based on the provided context, the claim appears to be true."
+  },
+  "be9f849dc332a3716983229e1ba7fda9bb8f3f0cd2e30161e712dc752875f534": {
+    "claim": "@Mashburn4NC @cheXbot is this true?",
+    "verdict": "misleading",
+    "confidence": 0.543052077293396,
+    "model": "bart",
+    "sources": []
+  },
+  "fe196407c9a06606557319e4e16024374ae151e70a84a9e33ad005425ce16da6": {
+    "claim": "@DJcalligraphy @cheXbot check it.",
+    "verdict": "misleading",
+    "confidence": 0.5288277268409729,
+    "model": "bart",
+    "sources": []
+  },
+  "b8d3d16556558e31872b37fb20c43a015875c759ba6c98883e5ae6aa65da6fd0": {
+    "claim": "@Real_RobN  check it for accuracy.",
+    "verdict": "misleading",
+    "confidence": 0.5668413639068604,
+    "model": "bart",
+    "sources": []
+  },
+  "64a59608ff353e1cf4dfcc903380c909fbc5d15ff80af604e635591fab2c3764": {
+    "claim": "@TheGabriel72 @ChexBot is this true?",
+    "verdict": "misleading",
+    "confidence": 0.5581265687942505,
+    "model": "bart",
+    "sources": []
+  },
+  "84122eafcdc95c02f5486af4809afbbb29b490951262d18d6204a6bd13696380": {
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "sources": [
+      "The atmosphere of the Moon is a very sparse layer of gases surrounding the Moon, consisting only of an exosphere. For most practical purposes, the Moon is\u00a0...",
+      "Titan is the largest moon of Saturn and the second-largest in the Solar System. It is the only moon known to have an atmosphere denser than the Earth's and\u00a0...",
+      "It has a very thin atmosphere, composed primarily of oxygen. Its geologically young white-beige surface is striated by light tan cracks and streaks, with\u00a0..."
+    ],
+    "model": "gpt-enhanced",
+    "gpt_summary": "False.\n\nThe sources provided indicate that the Moon has a very sparse exosphere, not a traditional atmosphere like Earth. In contrast, the moon Titan is mentioned as having a denser atmosphere than Earth. So, the claim that the Moon has an atmosphere is false."
+  },
+  "1c7f312e20292e49f0157810e881c0509295d2d472570c775142f4af91b6e337": {
+    "verdict": "False",
+    "confidence": 0.7148547768592834,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "af73d539cb523d7ab991e87b9e6e8aaa00efa8f10d9329194c44bde27365755c": {
+    "verdict": "False",
+    "confidence": 0.586562991142273,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "8a60ac2a51f91769baf8b9de8bbbc890b0233ee880948582601bd2c8214e80c8": {
+    "verdict": "True",
+    "confidence": 0.8762441873550415,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "efd87c1c8ce47d3639b3deb5d5d987b02057527dc10bba9a7b90daa277b39bc4": {
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "sources": [
+      "Sep 26, 2024 ... If future Chinese auto plants were allowed to export tariff-free to the U.S., \u201cwill they kill the US industry? ... economic nightmare will very\u00a0...",
+      "May 1, 2016 ... \"Donald's only economic agenda is imposing massive taxes on the American people with a 40 percent tax hike of a giant tariff,\" Cruz said. \"That\u00a0...",
+      "4 days ago ... ... duties, making worse an already beleaguered world economy and reducing global trade. ... Trump tariffs will raise prices for US consumers \u2022 Apr. 2\u00a0..."
+    ],
+    "model": "gpt-enhanced",
+    "gpt_summary": "Based on these sources, the claim that Trump's tariffs will kill the economy is a little unclear. One source mentions potential negative effects on US industry if Chinese auto plants were allowed to export tariff-free, while another mentions Trump's proposed tariffs as potentially harmful. However, it is not explicitly stated in these sources that Trump's tariffs will definitely kill the economy."
+  },
+  "a3a6a530b1612a5c507202d01c13cc23a75fdd14f7104ae732bee0e546d88467": {
+    "verdict": "True",
+    "confidence": 0.7064989805221558,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "566130ede4b07fa156f9beebcbd72757b21bc28c3d696a99a4a4a1363065abaf": {
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "sources": [
+      "An economic conflict between China and the United States has been ongoing since January 2018, when U.S. president Donald Trump began setting tariffs and\u00a0...",
+      "Sep 26, 2024 ... If future Chinese auto plants were allowed to export tariff-free to the U.S., \u201cwill they kill the US industry? ... economic nightmare will very\u00a0...",
+      "Sep 5, 2024 ... In Trump's first two years, the economy added 462,000 ... Trump via tariffs and deregulation and Biden via government incentives."
+    ],
+    "model": "gpt-enhanced",
+    "gpt_summary": "False. While there have been concerns about the impact of Trump's tariffs on the economy, there is no conclusive evidence that they will kill the economy. In fact, the economy has continued to grow during Trump's presidency."
+  },
+  "8689314cc329fa9b9343f93bee952c4966f26751887888b153ea5e7f41b6facb": {
+    "verdict": "True",
+    "confidence": 0.7382651567459106,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  }
+}

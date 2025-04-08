@@ -1,0 +1,40 @@
+import tweepy
+import torch
+from transformers import pipeline
+
+auth = tweepy.OAuth1UserHandler(
+    "wabGL48dhV0Azwqqsk631iKtz",
+    "Rri02HktT6shGuHCCkXZ8MKsiavhusWlR9Am1RRtIHPvpp4QC4",
+    "1901717905299161088-HCu0n570cuLwt1MFQwsd1p8sTIbhVy",
+    "TOxdO2B547Hauc7BB9kSZLql7QodECpVZo9IXvzmkdvaB"
+)
+api = tweepy.API(auth)
+
+# X API v2 setup
+client = tweepy.Client(
+    consumer_key="wabGL48dhV0Azwqqsk631iKtz",
+    consumer_secret="Rri02HktT6shGuHCCkXZ8MKsiavhusWlR9Am1RRtIHPvpp4QC4",
+    access_token="1901717905299161088-HCu0n570cuLwt1MFQwsd1p8sTIbhVy",
+    access_token_secret="TOxdO2B547Hauc7BB9kSZLql7QodECpVZo9IXvzmkdvaB"
+)
+
+# Test tweet
+tweet_id = "1903546924223099314"  # e.g., "1901717905299161088"
+tweet = api.get_status(tweet_id)
+tweet_text = tweet.text
+print(f"Tweet: {tweet_text}")
+# tweet = client.get_tweet(tweet_id, tweet_fields=["text"])
+# tweet_text = tweet.data["text"]
+# print(f"Tweet: {tweet_text}")
+
+# Classify claim
+torch.backends.mkldnn.enabled = True
+classifier = pipeline("zero-shot-classification", model="distilbert-base-uncased")
+result = classifier(tweet_text, candidate_labels=["factual", "opinion"])
+label = result["labels"][0]
+print(f"Verdict: {label}")
+
+# Reply on X (v2)
+reply_text = f"Checked: {label}"
+client.create_tweet(text=reply_text, in_reply_to_tweet_id=tweet_id)
+print(f"Replied: {reply_text}")

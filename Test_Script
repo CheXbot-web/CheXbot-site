@@ -1,0 +1,18 @@
+import tweepy
+with open("x_keys.txt", "r") as f:
+    lines = f.readlines()
+    bearer_token = lines[0].split(": ")[1].strip()
+    api_key = lines[1].split(": ")[1].strip()
+    api_secret = lines[2].split(": ")[1].strip()
+    access_token = lines[3].split(": ")[1].strip()
+    access_secret = lines[4].split(": ")[1].strip()
+
+client_bearer = tweepy.Client(bearer_token=bearer_token)
+client_oauth = tweepy.Client(consumer_key=api_key, consumer_secret=api_secret,
+                             access_token=access_token, access_token_secret=access_secret)
+
+tweet_id = "1904222616245932206"  # Your last test ID
+tweet = client_bearer.get_tweet(tweet_id, tweet_fields=["text"])
+print(f"Tweet: {tweet.data['text']}")
+client_oauth.create_tweet(text="Test from @CheXBot", in_reply_to_tweet_id=tweet_id)
+print("Replied: Test from @CheXBot")

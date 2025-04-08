@@ -1,0 +1,10 @@
+wikipedia.org
+snopes.com
+politifact.com
+factcheck.org
+britannica.com
+
+
+<script async src="https://cse.google.com/cse.js?cx=750eea185037c4ae7">
+</script>
+<div class="gcse-search"></div>

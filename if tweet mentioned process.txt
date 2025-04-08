@@ -1,0 +1,14 @@
+if tweet_id in processed_mentions:
+    continue
+tweet_text = tweet.text
+# Check if this is a reply to one of our tweets
+if tweet.referenced_tweets:
+    for ref_tweet in tweet.referenced_tweets:
+        if ref_tweet.type == "replied_to":
+            parent_tweet = get_tweet(client, ref_tweet.id, tweet_fields=["author_id"]).data
+            read_count += 1
+            if parent_tweet and parent_tweet.author_id == client.get_me().data.id:
+                continue  # Skip to reply handling below
+# Proceed with claim classification
+start_time = time.time()
+result = classifier(tweet_text, candidate_labels=["TrueClaim", "FalseClaim"])

@@ -1,0 +1,23 @@
+Loaded 14 processed mentions from processed_mentions.txt
+Loaded 2 processed conversations from processed_conversations.txt
+API Usage: 8 reads, 0 posts
+Claim classification inference time: 0.45 seconds
+Logged claim data: @CheXbot Check: Moon’s Gouda -> TrueClaim
+Replied to 1906067328477069729: @CheXbot67888: Checked: TrueClaim. [Source: https://go.nasa.gov/4i1dQgM] Do you agree? Reply to this tweet with @CheXbot in your message! @CheXbot checks mentions every 10 minutes—thanks for your patience! Support real-time checks: bit.ly/CheXbot
+Saved 15 processed mentions to processed_mentions.txt
+Saved 3 processed conversations to processed_conversations.txt
+API Usage: 17 reads, 1 posts
+Claim classification inference time: 0.39 seconds
+Logged claim data: @CheXbot @CheXbot I agree -> TrueClaim
+Replied to 1906069808984244289: @CheXbot67888: Checked: TrueClaim. [Source: https://go.nasa.gov/4i1dQgM] Do you agree? Reply to this tweet with @CheXbot in your message! @CheXbot checks mentions every 10 minutes—thanks for your patience! Support real-time checks: bit.ly/CheXbot
+Saved 16 processed mentions to processed_mentions.txt
+Saved 3 processed conversations to processed_conversations.txt
+Intent classification inference time: 0.65 seconds
+Classified reply '@CheXbot @CheXbot I agree' as UserAgrees with scores: [0.8921011090278625, 0.05192163586616516, 0.041401974856853485, 0.014575294218957424]
+Logged reply data: @CheXbot @CheXbot I agree -> UserAgrees
+Follow-up to 1906069808984244289: @CheXbot67888: Re: '@CheXbot67888 @CheXbot67888: Checked: TrueClaim. [...' - Glad you agree! More checks @ bit.ly/CheXbot—any other claims? [12:51:34]
+Saved 3 processed replies to processed_replies.txt
+API Usage: 31 reads, 3 posts
+API call failed: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)). Retrying in 5 seconds... (Attempt 1/3)
+API Usage: 42 reads, 3 posts
+API Usage: 53 reads, 3 posts
