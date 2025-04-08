@@ -7,3 +7,4 @@ flask
 gunicorn
 torch
 python-dotenv
+huggingface-hub[hf_xet]
