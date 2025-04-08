@@ -5,3 +5,4 @@ requests
 wikipedia
 flask
 gunicorn
+torch  # <-- this is PyTorch!
