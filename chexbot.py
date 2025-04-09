@@ -183,7 +183,8 @@ def post_cache_update(claim_id, data):
     except Exception as e:
         print(f"❌ Exception posting to site: {e}")
 
-me = client.get_user(username="CheXbot").data.id
+# me = client.get_user(username="CheXbot").data.id
+me = 1709645855386898825  # ← This is correct
 
 # === Main Bot Loop ===
 def check_mentions():
