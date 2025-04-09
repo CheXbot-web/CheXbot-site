@@ -204,7 +204,9 @@ def check_mentions():
             claim = tweet.text.replace("@CheXbot", "").strip()
 
         claim = unquote(claim)
-        claim_id = hashlib.md5(claim.encode()).hexdigest()
+        import hashlib
+        claim_id = hashlib.sha256(claim.encode()).hexdigest()
+
 
         category = categorize_claim(claim)
         print(f"Detected claim category: {category}")
