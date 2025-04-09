@@ -2,7 +2,10 @@ services:
   - type: web
     name: chexbot-site
     env: python
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+
     startCommand: "gunicorn app:app"
     plan: free
     envVars:
@@ -26,7 +29,9 @@ services:
   - type: worker
     name: chexbot-bot
     env: python
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
     startCommand: "python chexbot.py"
     plan: free
     envVars:
