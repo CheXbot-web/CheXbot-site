@@ -64,4 +64,6 @@ def safe_verify(claim, verifier, confidence_threshold=0.85):
     # Cache and return result
     claim_cache[claim_id] = result
     save_cache()
+    post_cache_update(claim_id, result)
+
     return result

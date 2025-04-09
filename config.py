@@ -27,3 +27,9 @@ GOOGLE_CSE_ID = os.getenv("google_cse_id")
 USE_GPT = True
 USE_BING = True
 CONFIDENCE_THRESHOLD = 0.85
+
+# Shared API Key between bot and site for /update endpoint
+UPDATE_API_KEY = os.getenv("update_api_key")  # You can change this to anything strong
+
+# Public Render URL of your Flask app
+SITE_API_URL = "https://chexbot-web.onrender.com/update"

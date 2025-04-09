@@ -2,6 +2,8 @@ from flask import Flask, render_template, abort
 import hashlib
 import json
 import os
+from flask import request
+from config import UPDATE_API_KEY
 
 app = Flask(__name__)
 
@@ -36,6 +38,27 @@ def debug_cache():
         "total_cached": len(claim_cache),
         "sample_keys": list(claim_cache.keys())[:5]
     }
+@app.route("/update", methods=["POST"])
+def update_cache():
+    auth = request.headers.get("Authorization", "")
+    if not auth.startswith("Bearer ") or auth.split(" ")[1] != UPDATE_API_KEY:
+        return "Unauthorized", 401
+
+    try:
+        data = request.get_json()
+        claim_id = data["id"]
+        claim_cache[claim_id] = data
+
+        # Save updated cache to file
+        with open(CACHE_FILE, "w") as f:
+            json.dump(claim_cache, f, indent=2)
+
+        print(f"✅ Updated cache with claim ID: {claim_id}")
+        return "✅ Claim added to cache", 200
+
+    except Exception as e:
+        print("❌ Error updating cache:", e)
+        return "Server error", 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
