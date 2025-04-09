@@ -16,9 +16,7 @@ else:
     claim_cache = {}
     print("⚠️ No claim_cache.json found")
 
-# Utility to generate MD5 claim IDs
-def get_claim_id(claim_text):
-    return hashlib.md5(claim_text.encode("utf-8")).hexdigest()
+
 
 @app.route("/")
 def index():
