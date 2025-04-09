@@ -183,14 +183,13 @@ def post_cache_update(claim_id, data):
     except Exception as e:
         print(f"❌ Exception posting to site: {e}")
 
+        me = client.get_user(username="CheXbot").data.id
 
 # === Main Bot Loop ===
 def check_mentions():
     global last_seen_id
 
-    me = client.get_user(username="CheXbot").data.id
-
-    mentions = client.get_users_mentions(
+        mentions = client.get_users_mentions(
         id=me,
         since_id=last_seen_id,
         tweet_fields=["author_id", "created_at"],
