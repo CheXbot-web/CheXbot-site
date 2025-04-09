@@ -166,6 +166,24 @@ def save_last_seen(tweet_id):
 
 last_seen_id = load_last_seen()
 
+import requests
+from config import SITE_API_URL, UPDATE_API_KEY
+
+def post_cache_update(claim_id, data):
+    headers = {
+        "Authorization": f"Bearer {UPDATE_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.post(SITE_API_URL, headers=headers, json={"id": claim_id, **data})
+        if response.status_code == 200:
+            print(f"✅ Pushed claim {claim_id} to site")
+        else:
+            print(f"⚠️ Site update failed: {response.status_code} {response.text}")
+    except Exception as e:
+        print(f"❌ Exception posting to site: {e}")
+
+
 # === Main Bot Loop ===
 def check_mentions():
     global last_seen_id
