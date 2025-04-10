@@ -4,6 +4,8 @@ import hashlib
 import json
 import os
 from transformers import pipeline
+from site_api import post_cache_update
+
 
 CACHE_FILE = "claim_cache.json"
 
