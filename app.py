@@ -45,21 +45,29 @@ def debug_cache():
     
 @app.route("/update", methods=["POST"])
 def update_cache():
-    token = request.headers.get("Authorization", "").replace("Bearer ", "")
-    if token != UPDATE_API_KEY:
-        return jsonify({"error": "Unauthorized"}), 403
+    try:
+        token = request.headers.get("Authorization", "").replace("Bearer ", "")
+        if token != UPDATE_API_KEY:
+            return jsonify({"error": "Unauthorized"}), 403
 
-    data = request.get_json()
-    if not data or "claim_id" not in data:
-        return jsonify({"error": "Missing claim_id"}), 400
+        data = request.get_json()
+        if not data or "claim_id" not in data or "result" not in data:
+            return jsonify({"error": "Invalid data"}), 400
 
-    claim_id = data["claim_id"]
-    result = data["result"]
+        claim_id = data["claim_id"]
+        result = data["result"]
+        claim_cache[claim_id] = result
 
-    claim_cache[claim_id] = result
-    save_cache()
+        with open(CACHE_FILE, "w") as f:
+            json.dump(claim_cache, f, indent=2)
 
-    return jsonify({"message": "Cache updated"}), 200
+        print(f"✅ Updated cache with claim ID: {claim_id}")
+        return jsonify({"message": "Cache updated"}), 200
+
+    except Exception as e:
+        print("❌ Exception in update_cache:", e)
+        return jsonify({"error": "Server error", "detail": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
