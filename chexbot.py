@@ -265,6 +265,9 @@ def check_mentions():
             log_failed_reply(tweet.id, author, claim, e)
 
 if __name__ == "__main__":
+    print("✅ Script reached main block")
     while True:
+        print("🔄 Loop running. Calling check_mentions()...")
         check_mentions()
         time.sleep(120)
+
