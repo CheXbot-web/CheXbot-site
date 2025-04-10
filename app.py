@@ -42,31 +42,39 @@ def debug_cache():
         "sample_keys": list(claim_cache.keys())[:5]
     }
 
-    
 @app.route("/update", methods=["POST"])
 def update_cache():
     try:
+        print("📬 /update endpoint was hit")
+
         token = request.headers.get("Authorization", "").replace("Bearer ", "")
+        print(f"🔑 Received token: {token}")
+
         if token != UPDATE_API_KEY:
+            print("⛔ Token mismatch — unauthorized request.")
             return jsonify({"error": "Unauthorized"}), 403
 
         data = request.get_json()
+        print(f"📦 Incoming data: {data}")
+
         if not data or "claim_id" not in data or "result" not in data:
+            print("❌ Missing 'claim_id' or 'result' in data.")
             return jsonify({"error": "Invalid data"}), 400
 
         claim_id = data["claim_id"]
         result = data["result"]
         claim_cache[claim_id] = result
 
-        with open(CACHE_FILE, "w") as f:
-            json.dump(claim_cache, f, indent=2)
+        save_cache()
 
         print(f"✅ Updated cache with claim ID: {claim_id}")
         return jsonify({"message": "Cache updated"}), 200
 
     except Exception as e:
-        print("❌ Exception in update_cache:", e)
+        print(f"🔥 Exception in update_cache(): {e}")
         return jsonify({"error": "Server error", "detail": str(e)}), 500
+
+
 
 
 if __name__ == "__main__":
