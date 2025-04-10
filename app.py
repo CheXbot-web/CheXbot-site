@@ -18,6 +18,9 @@ else:
     claim_cache = {}
     print("⚠️ No claim_cache.json found")
 
+def save_cache():
+    with open(CACHE_FILE, "w") as f:
+        json.dump(claim_cache, f, indent=2)
 
 
 @app.route("/")
@@ -38,28 +41,7 @@ def debug_cache():
         "total_cached": len(claim_cache),
         "sample_keys": list(claim_cache.keys())[:5]
     }
-""" @app.route("/update", methods=["POST"])
-def update_cache():
-    auth = request.headers.get("Authorization", "")
-    if not auth.startswith("Bearer ") or auth.split(" ")[1] != UPDATE_API_KEY:
-        return "Unauthorized", 401
 
-    try:
-        data = request.get_json()
-        claim_id = data["id"]
-        claim_cache[claim_id] = data
-
-        # Save updated cache to file
-        with open(CACHE_FILE, "w") as f:
-            json.dump(claim_cache, f, indent=2)
-
-        print(f"✅ Updated cache with claim ID: {claim_id}")
-        return "✅ Claim added to cache", 200
-
-    except Exception as e:
-        print("❌ Error updating cache:", e)
-        return "Server error", 500
-     """
     
 @app.route("/update", methods=["POST"])
 def update_cache():
