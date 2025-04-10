@@ -2,7 +2,7 @@ from flask import Flask, render_template, abort
 import hashlib
 import json
 import os
-from flask import request
+from flask import request, jsonify
 from config import UPDATE_API_KEY
 
 app = Flask(__name__)
@@ -38,7 +38,7 @@ def debug_cache():
         "total_cached": len(claim_cache),
         "sample_keys": list(claim_cache.keys())[:5]
     }
-@app.route("/update", methods=["POST"])
+""" @app.route("/update", methods=["POST"])
 def update_cache():
     auth = request.headers.get("Authorization", "")
     if not auth.startswith("Bearer ") or auth.split(" ")[1] != UPDATE_API_KEY:
@@ -59,6 +59,25 @@ def update_cache():
     except Exception as e:
         print("❌ Error updating cache:", e)
         return "Server error", 500
+     """
+    
+@app.route("/update", methods=["POST"])
+def update_cache():
+    token = request.headers.get("Authorization", "").replace("Bearer ", "")
+    if token != UPDATE_API_KEY:
+        return jsonify({"error": "Unauthorized"}), 403
+
+    data = request.get_json()
+    if not data or "claim_id" not in data:
+        return jsonify({"error": "Missing claim_id"}), 400
+
+    claim_id = data["claim_id"]
+    result = data["result"]
+
+    claim_cache[claim_id] = result
+    save_cache()
+
+    return jsonify({"message": "Cache updated"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
