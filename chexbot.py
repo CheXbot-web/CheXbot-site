@@ -20,6 +20,8 @@ import hashlib
 from db import init_db, save_fact_check
 from config import OPENAI_KEY, GOOGLE_API_KEY, GOOGLE_CSE_ID, \
     CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, BEARER_TOKEN
+import requests
+from config import SITE_API_URL, UPDATE_API_KEY
 
 # This is CheXbot's fixed user ID. You can find yours with:
 # client.get_user(username="CheXbot").data.id
@@ -93,7 +95,7 @@ def create_tweet(client, text, in_reply_to_tweet_id=None):
     return client.create_tweet(text=text, in_reply_to_tweet_id=in_reply_to_tweet_id)
 
 # === Dry Run and Logging ===
-DRY_RUN = False
+DRY_RUN = True
 LOG_FILE = "failed_replies.log"
 
 # === Subscriber List ===
@@ -170,8 +172,6 @@ def save_last_seen(tweet_id):
 
 last_seen_id = load_last_seen()
 
-import requests
-from config import SITE_API_URL, UPDATE_API_KEY
 
 def post_cache_update(claim_id, data):
     headers = {
@@ -179,13 +179,22 @@ def post_cache_update(claim_id, data):
         "Content-Type": "application/json"
     }
     try:
-        response = requests.post(SITE_API_URL, headers=headers, json={"id": claim_id, **data})
+        response = requests.post(
+            SITE_API_URL,
+            headers=headers,
+            json={"claim_id": claim_id, "result": data},
+            timeout=5
+        )
         if response.status_code == 200:
             print(f"✅ Pushed claim {claim_id} to site")
         else:
             print(f"⚠️ Site update failed: {response.status_code} {response.text}")
+    except requests.exceptions.Timeout:
+        print(f"⚠️ Site update timeout for claim {claim_id}")
     except Exception as e:
-        print(f"❌ Exception posting to site: {e}")
+        print(f"❌ Exception posting to site for claim {claim_id}: {e}")
+
+
 
         
 # === Main Bot Loop ===
@@ -228,11 +237,13 @@ def check_mentions():
         import hashlib
         claim_id = hashlib.sha256(claim.encode()).hexdigest()
 
-
         category = categorize_claim(claim)
         print(f"Detected claim category: {category}")
 
         result = safe_verify(claim, verifier)
+
+        # Try to update the site without blocking replies
+        post_cache_update(claim_id, result)
 
         reply_text = verifier.format_result(result, claim_id)
         reply_text += f"\n\nCategory: {category}\nDo you agree or disagree?"
@@ -270,4 +281,3 @@ if __name__ == "__main__":
         print("🔄 Loop running. Calling check_mentions()...")
         check_mentions()
         time.sleep(120)
-
