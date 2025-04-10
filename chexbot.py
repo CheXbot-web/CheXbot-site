@@ -21,6 +21,10 @@ from db import init_db, save_fact_check
 from config import OPENAI_KEY, GOOGLE_API_KEY, GOOGLE_CSE_ID, \
     CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, BEARER_TOKEN
 
+# This is CheXbot's fixed user ID. You can find yours with:
+# client.get_user(username="CheXbot").data.id
+CHEXBOT_USER_ID = 1901717905299161088
+
 init_db()
 
 # === Setup Tweepy Auth ===
@@ -183,12 +187,11 @@ def post_cache_update(claim_id, data):
     except Exception as e:
         print(f"❌ Exception posting to site: {e}")
 
-# me = client.get_user(username="CheXbot").data.id
-me = 1709645855386898825  # ← This is correct
-
+        
 # === Main Bot Loop ===
 def check_mentions():
     global last_seen_id
+    me = CHEXBOT_USER_ID
 
     mentions = client.get_users_mentions(
         id=me,
