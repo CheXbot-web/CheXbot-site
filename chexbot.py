@@ -171,32 +171,7 @@ def save_last_seen(tweet_id):
         json.dump({"last_seen_id": tweet_id}, f)
 
 last_seen_id = load_last_seen()
-
-@retry_on_failure(max_retries=3, delay=5)
-def post_cache_update(claim_id, data):
-    headers = {
-        "Authorization": f"Bearer {UPDATE_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    try:
-        response = requests.post(
-            SITE_API_URL,
-            headers=headers,
-            json={"claim_id": claim_id, "result": data},
-            timeout=5
-        )
-        if response.status_code == 200:
-            print(f"✅ Pushed claim {claim_id} to site")
-        else:
-            print(f"⚠️ Site update failed: {response.status_code} {response.text}")
-    except requests.exceptions.Timeout:
-        print(f"⚠️ Site update timeout for claim {claim_id}")
-    except Exception as e:
-        print(f"❌ Exception posting to site for claim {claim_id}: {e}")
-
-
-
-        
+       
 # === Main Bot Loop ===
 def check_mentions():
     global last_seen_id
@@ -241,9 +216,6 @@ def check_mentions():
         print(f"Detected claim category: {category}")
 
         result = safe_verify(claim, verifier)
-
-        # Try to update the site without blocking replies
-        post_cache_update(claim_id, result)
 
         reply_text = verifier.format_result(result, claim_id)
         reply_text += f"\n\nCategory: {category}\nDo you agree or disagree?"

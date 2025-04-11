@@ -157,5 +157,115 @@
     "sources": [],
     "model": "bart-large-mnli",
     "gpt_summary": null
+  },
+  "3e1b7cdc3f4a7060e68d9ac5af99d5fb6f162466f217993558265ed7e1e32cd5": {
+    "verdict": "False",
+    "confidence": 0.9275051951408386,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "43242075c31d2a070cc556baff66852fc628a15a4aeff468c6d60f4e37777548": {
+    "verdict": "True",
+    "confidence": 0.8192556500434875,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "9ae4a901fa67e521b7d588008ccb582607d49fcdffbb5b4b0e856161181481da": {
+    "verdict": "True",
+    "confidence": 0.7264723777770996,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "efd9597942af5124b58bd22f9d8e596c57e744ed94aa117129e7834ebf9c01a6": {
+    "verdict": "True",
+    "confidence": 0.6975430250167847,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "b98a69001edba3a0b9c45eeee761de7fb477448d5b2b8714b0284ee0461fd829": {
+    "verdict": "True",
+    "confidence": 0.8861554265022278,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "dca3105b0825065c63c9e7352ec7272da20b2029fcffc840590c9db09eec9f2b": {
+    "verdict": "False",
+    "confidence": 0.5018821358680725,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "d8640a010b1f97fd64cca62d30090e298edf9e15662f370cb40f7e7955807813": {
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "sources": [
+      "An economic conflict between China and the United States has been ongoing since January 2018, when U.S. President Donald Trump began setting tariffs and\u00a0...",
+      "... buyers of Russian goods would no longer pay the current U.S. tariff rate. ... tariffs, US to hike China tariffs to 104%\". FOXBusiness. Retrieved April 8\u00a0...",
+      "The 2020s is the current decade that began on 1 January 2020, and will end on 31 December 2029. From top left, clockwise: COVID-19 became a global pandemic\u00a0..."
+    ],
+    "model": "gpt-enhanced",
+    "gpt_summary": "Based on the provided sources, the claim appears to be true. The economic conflict between China and the United States has involved setting tariffs, and there is mention of U.S. importers paying tariffs, which ultimately could lead to US consumers paying higher prices. The mention of US hiking China tariffs to 104% also supports the claim that US importers are bearing the cost, which may eventually be passed on to consumers."
+  },
+  "ef833bca3ea5ab5077aa8f34ec478cd9076978506252bd0ab82389f3413bca25": {
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "sources": [
+      "Extensive investigation into vaccines and autism spectrum disorder has shown that there is no relationship between the two, causal or otherwise, and that\u00a0...",
+      "Claims of a link between the MMR vaccine and autism have been extensively investigated and found to be false. The link was first suggested in the early\u00a0...",
+      "... causes and alternative medical treatments for autism. She has promoted the disproven idea that vaccines cause autism, and said that chelation\u00a0..."
+    ],
+    "model": "gpt-enhanced",
+    "gpt_summary": "False."
+  },
+  "397401cc24942fe79561a805d23f87ab4a947fb97408f79d2e5c18ccc4ebf2e7": {
+    "verdict": "True",
+    "confidence": 0.5498681664466858,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "501af2ec59462a0ccb26d0a1fe25d80b6dd83d99f40001a9cdf41852f7a17f30": {
+    "verdict": "False",
+    "confidence": 0.8582258820533752,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "ee46c85dc9b5e96f0ad08c76d91e665449939d76488f7720ee0abb48c3a12cc4": {
+    "verdict": "True",
+    "confidence": 0.8846765756607056,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "f316ef950888cec0bed3287c77d60ab42c1ee6668e75267f08e323bab98b00ff": {
+    "verdict": "True",
+    "confidence": 0.8076527714729309,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "d967a68fe4f476ba761388e4726e7e7b55218f67fe700174e3bbb39251b776e5": {
+    "verdict": "True",
+    "confidence": 0.7103585600852966,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "a18ea709d41b000243879265be364195ec55d4dfb661d25064bf4d17ffbf2240": {
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "sources": [
+      "Feb 28, 2025 ... 27 Threads post falsely claimed, \u201cDOGE stopped an annual payment to Barack Obama for $2.6 million for 'royalties associated with Obamacare.'\u00a0...",
+      "Feb 27, 2025 ... No, DOGE didn't stop supposed $2.6M annual 'Obamacare' royalty payments to Obama ... He's been collecting it since 2010, for a total of $39\u00a0...",
+      "Jan 15, 2017 ... President Obama trademarked the name 'Obamacare' and receives royalties every time the term is used. ... Donald Trump's accounting team has found\u00a0..."
+    ],
+    "model": "gpt-enhanced",
+    "gpt_summary": "False"
   }
 }
