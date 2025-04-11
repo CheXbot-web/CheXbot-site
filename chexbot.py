@@ -23,12 +23,18 @@ from config import OPENAI_KEY, GOOGLE_API_KEY, GOOGLE_CSE_ID, \
 import requests
 from config import SITE_API_URL, UPDATE_API_KEY
 
+print("✅ All modules imported, setup starting...")
+print("OPENAI_KEY:", "✅" if OPENAI_KEY else "❌ MISSING")
+print("UPDATE_API_KEY:", "✅" if UPDATE_API_KEY else "❌ MISSING")
+
+
+
 # This is CheXbot's fixed user ID. You can find yours with:
 # client.get_user(username="CheXbot").data.id
 CHEXBOT_USER_ID = 1901717905299161088
 
 init_db()
-
+print("SITE_API_URL:", SITE_API_URL)
 # === Setup Tweepy Auth ===
 auth = tweepy.OAuth1UserHandler(
     CONSUMER_KEY,
