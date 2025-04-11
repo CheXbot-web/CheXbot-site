@@ -12,7 +12,7 @@ def post_cache_update(claim_id, result):
         "result": result
     }
 
-    response = requests.post(SITE_API_URL, headers=headers, json=data, timeout=60)
+    response = requests.post(SITE_API_URL, headers=headers, json=data, timeout=120)
 
     if response.status_code == 200:
         print(f"✅ Pushed claim {claim_id} to site")
