@@ -172,7 +172,7 @@ def save_last_seen(tweet_id):
 
 last_seen_id = load_last_seen()
 
-
+@retry_on_failure(max_retries=3, delay=5)
 def post_cache_update(claim_id, data):
     headers = {
         "Authorization": f"Bearer {UPDATE_API_KEY}",
