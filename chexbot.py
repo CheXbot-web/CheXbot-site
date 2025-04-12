@@ -1,40 +1,61 @@
 # chexbot.py
 
-import openai
-import tweepy
-import time
-import requests
-from transformers import pipeline
-import os
-import logging
-import csv
-from datetime import datetime
-from requests.exceptions import RequestException
-import wikipedia  # Added for evidence retrieval
-from claim_categorizer import categorize_claim
-from claim_verifier import ClaimVerifier
-from safe_verify import safe_verify
-import json
-from urllib.parse import unquote
-import hashlib
-from db import init_db, save_fact_check
-from config import OPENAI_KEY, GOOGLE_API_KEY, GOOGLE_CSE_ID, \
-    CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, BEARER_TOKEN
-import requests
-from config import SITE_API_URL, UPDATE_API_KEY
+print("🚀 Starting CheXbot...")
 
-print("✅ All modules imported, setup starting...")
+# Core libraries
+try:
+    import os
+    import time
+    import json
+    import hashlib
+    import logging
+    import csv
+    from datetime import datetime
+    from urllib.parse import unquote
+    print("✅ Core libraries imported")
+except Exception as e:
+    print("❌ Core import failed:", e)
+
+# External libraries
+try:
+    import requests
+    import tweepy
+    import wikipedia
+    from transformers import pipeline
+    print("✅ External libraries imported")
+except Exception as e:
+    print("❌ External lib import failed:", e)
+
+# Custom/local modules
+try:
+    from claim_categorizer import categorize_claim
+    from claim_verifier import ClaimVerifier
+    from safe_verify import safe_verify
+    from db import init_db, save_fact_check
+    from config import OPENAI_KEY, GOOGLE_API_KEY, GOOGLE_CSE_ID, \
+        CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, BEARER_TOKEN, \
+        SITE_API_URL, UPDATE_API_KEY
+    print("✅ Internal modules and config loaded")
+except Exception as e:
+    print("❌ Custom module import failed:", e)
+
+# Check critical keys
 print("OPENAI_KEY:", "✅" if OPENAI_KEY else "❌ MISSING")
 print("UPDATE_API_KEY:", "✅" if UPDATE_API_KEY else "❌ MISSING")
+print("SITE_API_URL:", SITE_API_URL if SITE_API_URL else "❌ MISSING")
 
-
-
-# This is CheXbot's fixed user ID. You can find yours with:
-# client.get_user(username="CheXbot").data.id
+# Set fixed CheXbot ID
 CHEXBOT_USER_ID = 1901717905299161088
 
-init_db()
-print("SITE_API_URL:", SITE_API_URL)
+# Initialize DB
+try:
+    init_db()
+    print("✅ DB initialized")
+except Exception as e:
+    print("❌ DB init failed:", e)
+
+print("✅ Script reached main block")
+
 # === Setup Tweepy Auth ===
 auth = tweepy.OAuth1UserHandler(
     CONSUMER_KEY,
