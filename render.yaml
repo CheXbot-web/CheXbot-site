@@ -32,7 +32,7 @@ services:
     buildCommand: |
       pip install --upgrade pip
       pip install -r requirements.txt
-    startCommand: "python chexbot.py"
+    startCommand: "python chexbot_main.py"
     plan: free
     envVars:
       - key: OPENAI_KEY
