@@ -1,7 +1,7 @@
 import requests
-from config import SITE_API_URL, UPDATE_API_KEY
+# from config import SITE_API_URL, UPDATE_API_KEY
 import threading
-
+SITE_API_URL = "https://chexbot-web.onrender.com/update"
 def post_cache_update(claim_id, result):
     def send_update():
         try:
