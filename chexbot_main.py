@@ -1,4 +1,5 @@
-# chexbot.py
+print("👋 Sanity check: CheXbot_main.py actually executing...")
+
 
 print("🚀 Starting CheXbot...")
 
