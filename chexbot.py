@@ -18,6 +18,7 @@ except Exception as e:
 
 # External libraries
 try:
+    from requests.exceptions import RequestException
     import requests
     import tweepy
     import wikipedia
