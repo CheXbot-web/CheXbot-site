@@ -267,5 +267,19 @@
     ],
     "model": "gpt-enhanced",
     "gpt_summary": "False"
+  },
+  "83f62fa75c7c9d6e4745680854a06a71bbf14113942aa074c0c41d15cc84d33d": {
+    "verdict": "True",
+    "confidence": 0.527503490447998,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "be8978fc34bd074245e91ccd80081a2f668580537fb462c0c64a2397c2b9dc9d": {
+    "verdict": "False",
+    "confidence": 0.535180389881134,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
   }
 }

@@ -5,6 +5,7 @@ print("🚀 Starting CheXbot...")
 
 # Core libraries
 try:
+    import openai
     import os
     import time
     import json
@@ -124,7 +125,7 @@ def create_tweet(client, text, in_reply_to_tweet_id=None):
     return client.create_tweet(text=text, in_reply_to_tweet_id=in_reply_to_tweet_id)
 
 # === Dry Run and Logging ===
-DRY_RUN = True
+DRY_RUN = False
 LOG_FILE = "failed_replies.log"
 
 # === Subscriber List ===
