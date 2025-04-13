@@ -22,7 +22,7 @@
 
     <div class="summary">
       <strong>GPT Summary:</strong>
-      <p>{{ result.gpt_summary or 'No summary available.' }}</p>
+      <p>{{ result.summary or 'No summary available.' }}</p>
     </div>
 
     {% if result.sources and result.sources|length > 0 %}
