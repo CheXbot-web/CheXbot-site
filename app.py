@@ -4,10 +4,18 @@ import json
 import os
 from flask import request, jsonify
 from config import UPDATE_API_KEY
-# test change for trigging update- disregard this comment
+from flask import send_file
+
 app = Flask(__name__)
 
 CACHE_FILE = "claim_cache.json"
+
+# Backup file transfer
+@app.route("/backup/<filename>")
+def download_backup(filename):
+    if filename not in ["chexbot.db", "last_seen.json"]:
+        abort(403)
+    return send_file(filename, as_attachment=True)
 
 # Load cache at startup
 if os.path.exists(CACHE_FILE):
