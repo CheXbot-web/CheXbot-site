@@ -27,3 +27,4 @@ failed_replies.log
 venv/
 env/
 x_keys.txt
+chexbot_db_backup.py

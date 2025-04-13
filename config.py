@@ -26,7 +26,7 @@ GOOGLE_CSE_ID = os.getenv("google_cse_id")
 # === Optional: Feature Flags ===
 USE_GPT = True
 USE_BING = True
-CONFIDENCE_THRESHOLD = 0.85
+CONFIDENCE_THRESHOLD = 0.55
 
 # Shared API Key between bot and site for /update endpoint
 UPDATE_API_KEY = os.getenv("update_api_key")
