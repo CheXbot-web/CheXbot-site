@@ -2,7 +2,9 @@ from flask import Flask, render_template, abort
 import hashlib
 import json
 import os
-from flask import request, jsonify
+import io
+import zipfile
+from flask import Flask, request, send_file, jsonify
 from config import UPDATE_API_KEY
 from flask import send_file
 
@@ -11,17 +13,46 @@ app = Flask(__name__)
 CACHE_FILE = "claim_cache.json"
 
 # Backup file transfer
-@app.route("/backup/<filename>")
-def download_backup(filename):
-    allowed_files = ["chexbot.db", "last_seen.json"]
-    if filename not in allowed_files:
-        abort(403)
+@app.route("/backup", methods=["POST"])
+def backup_files():
+    token = request.headers.get("Authorization", "").replace("Bearer ", "")
+    if token != UPDATE_API_KEY:
+        return jsonify({"error": "Unauthorized"}), 403
 
-    abs_path = os.path.abspath(filename)
-    if not os.path.exists(abs_path):
-        return f"❌ File not found: {abs_path}", 404
+    try:
+        db_path = "chexbot.db"
+        last_seen_path = "last_seen.json"
 
-    return send_file(abs_path, as_attachment=True)
+        # Confirm both files exist
+        files_to_backup = []
+        if os.path.exists(db_path):
+            files_to_backup.append(db_path)
+        if os.path.exists(last_seen_path):
+            files_to_backup.append(last_seen_path)
+
+        if not files_to_backup:
+            return jsonify({"error": "No files to back up"}), 404
+
+        # Create in-memory zip archive
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w") as zipf:
+            for file_path in files_to_backup:
+                zipf.write(file_path, arcname=os.path.basename(file_path))
+
+        zip_buffer.seek(0)
+
+        return send_file(
+            zip_buffer,
+            mimetype="application/zip",
+            as_attachment=True,
+            download_name="chexbot_backup.zip"
+        )
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": "Server error", "details": str(e)}), 500
+
 
 
 # Load cache at startup
