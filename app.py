@@ -13,9 +13,16 @@ CACHE_FILE = "claim_cache.json"
 # Backup file transfer
 @app.route("/backup/<filename>")
 def download_backup(filename):
-    if filename not in ["chexbot.db", "last_seen.json"]:
+    allowed_files = ["chexbot.db", "last_seen.json"]
+    if filename not in allowed_files:
         abort(403)
-    return send_file(filename, as_attachment=True)
+
+    abs_path = os.path.abspath(filename)
+    if not os.path.exists(abs_path):
+        return f"❌ File not found: {abs_path}", 404
+
+    return send_file(abs_path, as_attachment=True)
+
 
 # Load cache at startup
 if os.path.exists(CACHE_FILE):
