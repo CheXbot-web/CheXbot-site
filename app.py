@@ -12,12 +12,8 @@ app = Flask(__name__)
 CACHE_FILE = "claim_cache.json"
 
 # Backup file transfer
-@app.route("/backup", methods=["POST"])
+@app.route("/backup", methods=["GET"])
 def backup_files():
-    token = request.headers.get("Authorization", "").replace("Bearer ", "")
-    if token != UPDATE_API_KEY:
-        return jsonify({"error": "Unauthorized"}), 403
-
     try:
         db_path = "chexbot.db"
         # last_seen_path = "last_seen.json"
