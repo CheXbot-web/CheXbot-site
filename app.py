@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, request, send_file, jsonify,send_file
+from flask import Flask, render_template, abort, request, send_file, jsonify
 import hashlib
 import json
 import os
@@ -26,9 +26,6 @@ def backup_files():
         files_to_backup = []
         if os.path.exists(db_path):
             files_to_backup.append(db_path)
-        # if os.path.exists(last_seen_path):
-        #    files_to_backup.append(last_seen_path)
-
         if not files_to_backup:
             return jsonify({"error": "No files to back up"}), 404
 
