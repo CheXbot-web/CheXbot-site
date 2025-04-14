@@ -2,7 +2,7 @@ import requests
 import datetime
 
 BASE_URL = "https://chexbot-web.onrender.com/backup"
-FILES = ["chexbot.db", "last_seen.json"]
+FILES = ["1911151402384236960"]
 DEST_FOLDER = "backups"
 
 def download(file):

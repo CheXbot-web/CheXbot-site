@@ -295,5 +295,44 @@
     "sources": [],
     "model": "bart-large-mnli",
     "gpt_summary": null
+  },
+  "6e018c03774ab70756a21e31d26acfff8da07ced7473b2e93034b149aad99ca3": {
+    "verdict": "True",
+    "confidence": 0.5187853574752808,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "59e6e3ef697dc0b4e3f3141525bbe93215017832973596928967371754f1e3b5": {
+    "verdict": "False",
+    "confidence": 0.7550294995307922,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "ad8fecf3fca23fb0cdd558f59140527f9ba148ac46b853326bd4d6ea2e9829ac": {
+    "verdict": "False",
+    "confidence": 0.6684368848800659,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "7aef21582a09cd78f29137cbbafb7239eda19da91ddde16583b9eb0dc239ec1f": {
+    "verdict": "False",
+    "confidence": 0.5977907776832581,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "96b025ecb8814762217bd68f62e2cb2f1d830331ae3bf3cb193e8000787c7e17": {
+    "verdict": "See GPT summary",
+    "confidence": 0.99,
+    "sources": [
+      "If a coronavirus outbreak occurs in China, there is a high likelihood it will occur near a large city, and therefore near a laboratory studying coronaviruses.",
+      "The first known case was identified in Wuhan, China, in December 2019. Most scientists believe that the SARS-CoV-2 virus entered into human populations through\u00a0...",
+      "The COVID-19 pandemic in mainland China is part of the worldwide pandemic of coronavirus disease 2019 (COVID-19) caused by severe acute respiratory syndrome\u00a0..."
+    ],
+    "model": "gpt-enhanced",
+    "gpt_summary": "Based on the given sources, the claim that COVID-19 was designed in China is false. The outbreak of the virus near a laboratory studying coronaviruses does not necessarily mean it was engineered there, and most scientists believe the virus entered human populations naturally."
   }
 }

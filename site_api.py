@@ -1,8 +1,8 @@
 import requests
-from config import SITE_API_URL, UPDATE_API_KEY
+# from config import SITE_API_URL, UPDATE_API_KEY
 import threading
-# SITE_API_URL = "https://chexbot-web.onrender.com/update"
-# UPDATE_API_KEY = "jB5jdm44haN4txs4lULsPYYizgekrahniu" 
+SITE_API_URL = "https://chexbot-web.onrender.com/update"
+UPDATE_API_KEY = "jB5jdm44haN4txs4lULsPYYizgekrahniu" 
 def post_cache_update(claim_id, result):
     def send_update():
         try:
@@ -11,7 +11,7 @@ def post_cache_update(claim_id, result):
                 "Content-Type": "application/json"
             }
             data = {"claim_id": claim_id, "result": result}
-            response = requests.post(SITE_API_URL, headers=headers, json=data, timeout=120)
+            response = requests.post(SITE_API_URL, headers=headers, json=data, timeout=200)
 
             if response.status_code == 200:
                 print(f"✅ Pushed claim {claim_id} to site")

@@ -25,6 +25,7 @@ try:
     import tweepy
     import wikipedia
     from transformers import pipeline
+    from db import init_db, save_fact_check, get_metadata, set_metadata, init_metadata
     print("✅ External libraries imported")
 except Exception as e:
     print("❌ External lib import failed:", e)
@@ -34,7 +35,6 @@ try:
     from claim_categorizer import categorize_claim
     from claim_verifier import ClaimVerifier
     from safe_verify import safe_verify
-    from db import init_db, save_fact_check
     from config import OPENAI_KEY, GOOGLE_API_KEY, GOOGLE_CSE_ID, \
         CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET, BEARER_TOKEN, \
         SITE_API_URL, UPDATE_API_KEY
@@ -53,6 +53,7 @@ CHEXBOT_USER_ID = 1901717905299161088
 # Initialize DB
 try:
     init_db()
+    init_metadata()
     print("✅ DB initialized")
 except Exception as e:
     print("❌ DB init failed:", e)
@@ -189,22 +190,20 @@ def log_failed_reply(tweet_id, author, claim, reason):
             "reason": str(reason)
         }) + "\n")
 
-SEEN_FILE = "last_seen.json"
+
 def load_last_seen():
-    if os.path.exists(SEEN_FILE):
-        with open(SEEN_FILE, "r") as f:
-            return json.load(f).get("last_seen_id")
-    return None
+    return get_metadata("last_seen_id")
 
 def save_last_seen(tweet_id):
-    with open(SEEN_FILE, "w") as f:
-        json.dump({"last_seen_id": tweet_id}, f)
-
-last_seen_id = load_last_seen()
+    set_metadata("last_seen_id", str(tweet_id))
        
+
+
 # === Main Bot Loop ===
 def check_mentions():
     global last_seen_id
+    last_seen_id = load_last_seen()
+
     me = CHEXBOT_USER_ID
 
     mentions = client.get_users_mentions(

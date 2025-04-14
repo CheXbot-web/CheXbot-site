@@ -1,12 +1,11 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, request, send_file, jsonify,send_file
 import hashlib
 import json
 import os
 import io
 import zipfile
-from flask import Flask, request, send_file, jsonify
-from config import UPDATE_API_KEY
-from flask import send_file
+# from config import UPDATE_API_KEY
+UPDATE_API_KEY = "jB5jdm44haN4txs4lULsPYYizgekrahniu"
 
 app = Flask(__name__)
 
@@ -21,14 +20,14 @@ def backup_files():
 
     try:
         db_path = "chexbot.db"
-        last_seen_path = "last_seen.json"
+        # last_seen_path = "last_seen.json"
 
         # Confirm both files exist
         files_to_backup = []
         if os.path.exists(db_path):
             files_to_backup.append(db_path)
-        if os.path.exists(last_seen_path):
-            files_to_backup.append(last_seen_path)
+        # if os.path.exists(last_seen_path):
+        #    files_to_backup.append(last_seen_path)
 
         if not files_to_backup:
             return jsonify({"error": "No files to back up"}), 404
