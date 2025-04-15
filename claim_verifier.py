@@ -3,6 +3,7 @@
 import openai
 import requests
 import random
+from utils import trust_level_emoji, random_catchphrase
 
 class ClaimVerifier:
     def __init__(self, use_gpt=False, openai_key=None, google_api_key=None, google_cse_id=None):
@@ -39,23 +40,18 @@ class ClaimVerifier:
             messages=[{"role": "user", "content": prompt}]
         )
         return response.choices[0].message.content
-    def format_result(self, result, claim_id=None):
-        support_messages = [
-            "✅ Support real-time checks: bit.ly/CheXbot",
-            "✅ Help keep CheXbot running: bit.ly/CheXbot",
-            "✅ Back this project: bit.ly/CheXbot",
-            "✅ Fuel the fact-checks: bit.ly/CheXbot"
-        ]
-        support_line = random.choice(support_messages)
+    
 
-        verdict = result.get("verdict", "Unknown")
-        confidence = result.get("confidence", 0.0)
-        link = f"https://chexbot-web.onrender.com/claim/{claim_id}" if claim_id else ""
+    def format_result(self, result, claim_id):
+        verdict = result["verdict"]
+        confidence = result["confidence"]
+        shield, level = trust_level_emoji(confidence)
+        catchphrase = random_catchphrase()
+        summary_url = f"https://chexbot-web.onrender.com/claim/{claim_id}"
 
         return (
             f"✅ Claim Verified: {verdict}\n"
             f"🧠 Confidence: {confidence:.2f}\n"
-            f"🔗 {link}\n"
-            f"{support_line}"
+            f"🤖 {shield} Trust Level {level} — View Summary 🔗 {summary_url}\n\n"
+            f"{catchphrase}"
         )
-        
