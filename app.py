@@ -11,42 +11,6 @@ app = Flask(__name__)
 
 CACHE_FILE = "claim_cache.json"
 
-# Backup file transfer
-@app.route("/backup", methods=["GET"])
-def backup_files():
-    try:
-        db_path = "chexbot.db"
-        # last_seen_path = "last_seen.json"
-
-        # Confirm both files exist
-        files_to_backup = []
-        if os.path.exists(db_path):
-            files_to_backup.append(db_path)
-        if not files_to_backup:
-            return jsonify({"error": "No files to back up"}), 404
-
-        # Create in-memory zip archive
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w") as zipf:
-            for file_path in files_to_backup:
-                zipf.write(file_path, arcname=os.path.basename(file_path))
-
-        zip_buffer.seek(0)
-
-        return send_file(
-            zip_buffer,
-            mimetype="application/zip",
-            as_attachment=True,
-            download_name="chexbot_backup.zip"
-        )
-
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return jsonify({"error": "Server error", "details": str(e)}), 500
-
-
-
 # Load cache at startup
 if os.path.exists(CACHE_FILE):
     with open(CACHE_FILE, "r") as f:
@@ -112,7 +76,39 @@ def update_cache():
         print(f"🔥 Exception in update_cache(): {e}")
         return jsonify({"error": "Server error", "detail": str(e)}), 500
 
+# Backup file transfer
+@app.route("/backup", methods=["GET"])
+def backup_files():
+    try:
+        db_path = "chexbot.db"
+        # last_seen_path = "last_seen.json"
 
+        # Confirm both files exist
+        files_to_backup = []
+        if os.path.exists(db_path):
+            files_to_backup.append(db_path)
+        if not files_to_backup:
+            return jsonify({"error": "No files to back up"}), 404
+
+        # Create in-memory zip archive
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w") as zipf:
+            for file_path in files_to_backup:
+                zipf.write(file_path, arcname=os.path.basename(file_path))
+
+        zip_buffer.seek(0)
+
+        return send_file(
+            zip_buffer,
+            mimetype="application/zip",
+            as_attachment=True,
+            download_name="chexbot_backup.zip"
+        )
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": "Server error", "details": str(e)}), 500
 
 
 if __name__ == "__main__":

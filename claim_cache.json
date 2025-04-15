@@ -334,5 +334,19 @@
     ],
     "model": "gpt-enhanced",
     "gpt_summary": "Based on the given sources, the claim that COVID-19 was designed in China is false. The outbreak of the virus near a laboratory studying coronaviruses does not necessarily mean it was engineered there, and most scientists believe the virus entered human populations naturally."
+  },
+  "de51b9c69cd81d6a6ac04cdd5786c469380fffc6f480103728b4e5fbc400203a": {
+    "verdict": "True",
+    "confidence": 0.6505732536315918,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "29f4a3776bf7c342e37922492e4df3bea519ca201c74a298a2237bfedbde6660": {
+    "verdict": "True",
+    "confidence": 0.8162248730659485,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
   }
 }
