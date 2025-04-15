@@ -22,8 +22,8 @@
 
     <div class="summary">
       <strong>GPT Summary:</strong>
-      <p id="gpt-summary"><em>⏳ Loading summary...</em></p>
-    </div>
+      <div id="summary-content">⏳ Loading summary...</div>
+    </div>    
 
     {% if result.sources and result.sources|length > 0 %}
     <div class="sources">
@@ -42,17 +42,27 @@
     Follow us on X: <a href="https://x.com/CheXbot">@CheXbot</a>
   </footer>
   <script>
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener("DOMContentLoaded", function () {
       const claimId = "{{ claim_id }}";
-      try {
-        const response = await fetch(`/summary/${claimId}`);
-        const data = await response.json();
-        document.getElementById("gpt-summary").innerText = data.summary;
-      } catch (error) {
-        document.getElementById("gpt-summary").innerText = "❌ Failed to load summary.";
-      }
+      const content = document.getElementById("summary-content");
+  
+      fetch(`/summary/${claimId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.summary) {
+            content.innerText = data.summary;
+          } else if (data.error) {
+            content.innerText = "⚠️ " + data.error;
+          } else {
+            content.innerText = "⚠️ No summary available.";
+          }
+        })
+        .catch(err => {
+          content.innerText = "❌ Failed to load summary.";
+        });
     });
   </script>
+  
   
 </body>
 </html>
