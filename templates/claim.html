@@ -22,7 +22,7 @@
 
     <div class="summary">
       <strong>GPT Summary:</strong>
-      <p>{{ result.summary or 'No summary available.' }}</p>
+      <p id="gpt-summary"><em>⏳ Loading summary...</em></p>
     </div>
 
     {% if result.sources and result.sources|length > 0 %}
@@ -41,5 +41,18 @@
     Shared by <strong>CheXbot</strong> | Real-time fact verification bot<br>
     Follow us on X: <a href="https://x.com/CheXbot">@CheXbot</a>
   </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const claimId = "{{ claim_id }}";
+      try {
+        const response = await fetch(`/summary/${claimId}`);
+        const data = await response.json();
+        document.getElementById("gpt-summary").innerText = data.summary;
+      } catch (error) {
+        document.getElementById("gpt-summary").innerText = "❌ Failed to load summary.";
+      }
+    });
+  </script>
+  
 </body>
 </html>

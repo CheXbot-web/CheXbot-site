@@ -109,6 +109,15 @@ def backup_files():
         import traceback
         traceback.print_exc()
         return jsonify({"error": "Server error", "details": str(e)}), 500
+    
+@app.route("/summary/<claim_id>")
+def get_summary(claim_id):
+    result = claim_cache.get(claim_id)
+    if not result:
+        return jsonify({"error": "Claim not found"}), 404
+
+    summary = result.get("gpt_summary", "No summary available.")
+    return jsonify({"summary": summary})
 
 
 if __name__ == "__main__":
