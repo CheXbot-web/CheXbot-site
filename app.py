@@ -34,7 +34,7 @@ def show_claim(claim_id):
     result = claim_cache.get(claim_id)
     if not result:
         abort(404)
-    return render_template("claim.html", result=result)
+    return render_template("claim.html", result=result, claim_id=claim_id)
 
 # Optional debug route
 @app.route("/debug-cache")
