@@ -348,5 +348,19 @@
     "sources": [],
     "model": "bart-large-mnli",
     "gpt_summary": null
+  },
+  "c0550439d4dad7d5821e4b027735c3f78170c87557493b81082cda639843afd9": {
+    "verdict": "True",
+    "confidence": 0.8246426582336426,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "3007da0c1d3db9c345ebe21434b62dabbe01e35cf91f10064dedceb5c3a3a541": {
+    "verdict": "False",
+    "confidence": 0.5128800272941589,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
   }
 }

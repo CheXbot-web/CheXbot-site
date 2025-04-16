@@ -112,32 +112,25 @@ def backup_files():
     
 @app.route("/summary/<claim_id>")
 def get_summary(claim_id):
-    from db import get_fact_check_by_id
+    from db import get_fact_check_by_original_id, get_claim_details, save_claim_details
     from gpt_summarizer import generate_gpt_summary
 
     try:
-        # ✅ Check if summary already exists in claim_cache
-        if claim_id in claim_cache and claim_cache[claim_id].get("gpt_summary"):
-            return jsonify({"summary": claim_cache[claim_id]["gpt_summary"]})
+        existing = get_claim_details(claim_id)
+        if existing and existing[0]:  # gpt_summary exists
+            return jsonify({"summary": existing[0]})
 
-        # 🧠 Otherwise, fetch the claim from DB
-        fact = get_fact_check_by_id(claim_id)
+        fact = get_fact_check_by_original_id(claim_id)
         if not fact:
             return jsonify({"error": "Claim not found"}), 404
 
-        # 🤖 Generate GPT summary on the fly
         summary = generate_gpt_summary(fact["claim"], fact["verdict"], fact["confidence"])
-
-        # 💾 Save to cache
-        if claim_id not in claim_cache:
-            claim_cache[claim_id] = {}
-        claim_cache[claim_id]["gpt_summary"] = summary
-        save_cache()
-
+        save_claim_details(claim_id, summary)
         return jsonify({"summary": summary})
 
     except Exception as e:
         return jsonify({"error": "Failed to generate summary", "details": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)

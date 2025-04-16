@@ -1,7 +1,19 @@
 # db.py
 import sqlite3
+from datetime import datetime
 
 DB_FILE = "chexbot.db"
+
+def get_db_connection_dict():
+    """Returns a connection with row_factory set for dict-like access."""
+    conn = sqlite3.connect(DB_FILE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def get_db_connection_tuple():
+    """Returns a standard SQLite connection (tuple-style rows)."""
+    return sqlite3.connect(DB_FILE)
+
 
 def init_db():
     conn = sqlite3.connect(DB_FILE)
@@ -68,4 +80,51 @@ def get_fact_check_by_reply_id(reply_id):
     conn.close()
     return row
 
-__all__ = ["init_db", "save_fact_check", "get_fact_check_by_reply_id", "get_metadata", "set_metadata","init_metadata"]
+
+def init_claim_details():
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS claim_details (
+            claim_id TEXT PRIMARY KEY,
+            gpt_summary TEXT,
+            sources TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+def get_claim_details(claim_id):
+    conn = get_db_connection_dict()
+    c = conn.cursor()
+    c.execute('SELECT gpt_summary, sources FROM claim_details WHERE claim_id = ?', (claim_id,))
+    row = c.fetchone()
+    conn.close()
+    return row
+
+def save_claim_details(claim_id, summary, sources=None):
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO claim_details (claim_id, gpt_summary, sources, updated_at)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(claim_id) DO UPDATE SET
+            gpt_summary=excluded.gpt_summary,
+            sources=excluded.sources,
+            updated_at=CURRENT_TIMESTAMP
+    ''', (claim_id, summary, sources, datetime.now()))
+    conn.commit()
+    conn.close()
+
+def get_fact_check_by_original_id(original_tweet_id):
+    conn = get_db_connection_dict()
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute('SELECT * FROM fact_checks WHERE original_tweet_id = ?', (original_tweet_id,))
+    row = c.fetchone()
+    conn.close()
+    return row
+
+
+__all__ = ["init_db", "save_fact_check", "get_fact_check_by_reply_id", "get_metadata", "set_metadata","init_metadata","get_claim_details","init_claim_details","save_claim_details","get_fact_check_by_original_id"]

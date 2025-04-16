@@ -25,7 +25,7 @@ try:
     import tweepy
     import wikipedia
     from transformers import pipeline
-    from db import init_db, save_fact_check, get_metadata, set_metadata, init_metadata
+    from db import init_db, save_fact_check, get_metadata, set_metadata, init_metadata, init_claim_details
     print("✅ External libraries imported")
 except Exception as e:
     print("❌ External lib import failed:", e)
@@ -54,6 +54,7 @@ CHEXBOT_USER_ID = 1901717905299161088
 try:
     init_db()
     init_metadata()
+    init_claim_details()
     print("✅ DB initialized")
 except Exception as e:
     print("❌ DB init failed:", e)
