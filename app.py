@@ -34,27 +34,32 @@ def index():
 
 @app.route("/claim/<claim_id>")
 def show_claim(claim_id):
-    # Try cache first (optional)
+    print(f"🧪 Incoming request for /claim/{claim_id}")
+
     result = claim_cache.get(claim_id)
 
     if not result:
-        # Fallback to DB
-        fact = get_fact_check_by_original_id(claim_id)
-        if not fact:
-            abort(404)
+        # Fallback: try DB by tweet-based ID
+        try:
+            fact = get_fact_check_by_original_id(claim_id)
+            if fact:
+                fact = dict(fact)
+                result = {
+                    "claim": fact["claim"],
+                    "verdict": fact["verdict"],
+                    "confidence": fact["confidence"],
+                    "sources": [],
+                    "model": fact.get("model", "unknown"),
+                    "gpt_summary": None
+                }
+        except Exception as e:
+            print(f"⚠️ DB lookup failed: {e}")
 
-        fact = dict(fact)
+    if not result:
+        print(f"❌ No claim found for ID: {claim_id}")
+        return "Claim not found.", 404
 
-        result = {
-            "claim": fact["claim"],
-            "verdict": fact["verdict"],
-            "confidence": fact["confidence"],
-            "sources": [],  # You can load from claim_details if needed
-            "model": fact.get("model", "unknown"),
-            "gpt_summary": None
-        }
-
-        return render_template("claim.html", result=result, claim_id=claim_id, now=datetime.now())
+    return render_template("claim.html", result=result, claim_id=claim_id, now=datetime.now())
 
 
 # Optional debug route
