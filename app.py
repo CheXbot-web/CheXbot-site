@@ -4,6 +4,7 @@ import json
 import os
 import io
 import zipfile
+from datetime import datetime
 from db import get_fact_check_by_original_id
 # from config import UPDATE_API_KEY
 UPDATE_API_KEY = "jB5jdm44haN4txs4lULsPYYizgekrahniu"
@@ -41,7 +42,7 @@ def show_claim(claim_id):
         fact = get_fact_check_by_original_id(claim_id)
         if not fact:
             abort(404)
-            
+
         fact = dict(fact)
 
         result = {
@@ -53,7 +54,7 @@ def show_claim(claim_id):
             "gpt_summary": None
         }
 
-    return render_template("claim.html", result=result, claim_id=claim_id)
+        return render_template("claim.html", result=result, claim_id=claim_id, now=datetime.now())
 
 
 # Optional debug route
