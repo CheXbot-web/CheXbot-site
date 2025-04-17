@@ -41,7 +41,9 @@ def show_claim(claim_id):
         fact = get_fact_check_by_original_id(claim_id)
         if not fact:
             abort(404)
-        
+            
+        fact = dict(fact)
+
         result = {
             "claim": fact["claim"],
             "verdict": fact["verdict"],
