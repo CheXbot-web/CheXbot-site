@@ -1,68 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CheXbot | Claim Verification</title>
-  <style>
-    body { font-family: system-ui, sans-serif; background: #f9f9f9; padding: 2rem; color: #333; max-width: 700px; margin: auto; }
-    .card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    h1 { font-size: 1.6rem; color: #111; }
-    .meta { margin-top: 0.5rem; font-size: 0.95rem; color: #666; }
-    .summary { margin-top: 1.25rem; background: #f0f0f0; padding: 1rem; border-radius: 8px; }
-    .sources { margin-top: 1.5rem; }
-    .sources ul { padding-left: 1.2rem; }
-    footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; color: #999; }
-  </style>
+    <meta charset="UTF-8">
+    <title>CheXbot Claim Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: #222;
+        }
+
+        header .subtitle {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .verdict-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 0.5rem;
+        }
+
+        .true {
+            background-color: #4caf50;
+        }
+
+        .false {
+            background-color: #f44336;
+        }
+
+        .unsure {
+            background-color: #ff9800;
+        }
+
+        .summary-box {
+            background: #eef9ff;
+            border-left: 5px solid #2196f3;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        .sources ul {
+            margin: 0.5rem 0 0 1rem;
+        }
+
+        .sources a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .sources a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        code {
+            background: #eee;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <h1>✅ Claim Verdict: {{ result.verdict }}</h1>
-    <div class="meta">Confidence: {{ result.confidence }}</div>
 
-    <div class="summary">
-      <strong>GPT Summary:</strong>
-      <div id="summary-content">⏳ Loading summary...</div>
-    </div>    
+<div class="container">
+    <header>
+        <h1>🛡️ CheXbot Claim Review</h1>
+        <p class="subtitle">Fact-checking powered by AI, search, and your trust network.</p>
+    </header>
+
+    <p><span class="label">Claim ID:</span> <code>{{ claim_id }}</code></p>
+
+    {% if result.claim %}
+        <p><span class="label">Claim:</span><br>{{ result.claim }}</p>
+    {% endif %}
+
+    {% if result.verdict %}
+        <p class="label">Verdict:</p>
+        <div class="verdict-badge {% if result.verdict.lower() == 'true' %}true{% elif result.verdict.lower() == 'false' %}false{% else %}unsure{% endif %}">
+            {{ result.verdict }}
+        </div>
+    {% endif %}
+
+    {% if result.confidence %}
+        <p><span class="label">Confidence:</span>
+            {{ (result.confidence * 100) | round(1) }}%</p>
+    {% endif %}
 
     {% if result.sources and result.sources|length > 0 %}
-    <div class="sources">
-      <strong>Sources:</strong>
-      <ul>
-        {% for source in result.sources %}
-          <li>{{ source }}</li>
-        {% endfor %}
-      </ul>
-    </div>
+        <div class="sources">
+            <p class="label">Sources:</p>
+            <ul>
+                {% for src in result.sources %}
+                    {% if src.startswith("http") %}
+                        <li><a href="{{ src }}" target="_blank">{{ src }}</a></li>
+                    {% else %}
+                        <li>{{ src }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     {% endif %}
-  </div>
 
-  <footer>
-    Shared by <strong>CheXbot</strong> | Real-time fact verification bot<br>
-    Follow us on X: <a href="https://x.com/CheXbot">@CheXbot</a>
-  </footer>
-  <script>
+    <div id="summary-content" class="summary-box">
+        ⏳ Generating summary...
+    </div>
+
+    {% if claim_id.isdigit() %}
+        <p style="margin-top: 1rem;">
+            🔗 <a href="https://twitter.com/i/web/status/{{ claim_id }}" target="_blank">
+                View Original Tweet
+            </a>
+        </p>
+    {% endif %}
+
+    <footer>
+        <p>CheXbot is a prototype for AI-enhanced fact verification. For feedback or questions, contact us at <a href="mailto:support@chexbot.com">support@chexbot.com</a>.</p>
+        <p>&copy; {{ now().year }} CheXbot Team</p>
+    </footer>
+</div>
+
+<script>
     document.addEventListener("DOMContentLoaded", function () {
-      const claimId = "{{ claim_id }}";
-      const content = document.getElementById("summary-content");
-  
-      fetch(`/summary/${claimId}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.summary) {
-            content.innerText = data.summary;
-          } else if (data.error) {
-            content.innerText = "⚠️ " + data.error;
-          } else {
-            content.innerText = "⚠️ No summary available.";
-          }
-        })
-        .catch(err => {
-          content.innerText = "❌ Failed to load summary.";
-        });
+        const claimId = "{{ claim_id }}";
+        const content = document.getElementById("summary-content");
+
+        fetch(`/summary/${claimId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.summary) {
+                    content.innerText = data.summary;
+                } else if (data.error) {
+                    content.innerText = "⚠️ " + data.error;
+                } else {
+                    content.innerText = "⚠️ No summary available.";
+                }
+            })
+            .catch(err => {
+                content.innerText = "❌ Failed to load summary.";
+            });
     });
-  </script>
-  
-  
+</script>
+
 </body>
 </html>

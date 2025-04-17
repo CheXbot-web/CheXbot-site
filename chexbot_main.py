@@ -59,7 +59,6 @@ try:
 except Exception as e:
     print("❌ DB init failed:", e)
 
-print("✅ Script reached main block")
 
 # === Setup Tweepy Auth ===
 auth = tweepy.OAuth1UserHandler(
@@ -231,21 +230,30 @@ def check_mentions():
         if tweet.in_reply_to_user_id:
             parent = client.get_tweet(id=tweet.in_reply_to_status_id, tweet_fields=["text"])
             claim = parent.data.text
-        elif hasattr(tweet, "referenced_tweets") and tweet.referenced_tweets:
-            quoted_tweet = tweet.referenced_tweets[0]
-            quoted = client.get_tweet(id=quoted_tweet.id, tweet_fields=["text"])
-            claim = quoted.data.text
+            claim_id = tweet.in_reply_to_status_id
+        elif tweet.referenced_tweets:
+            for ref in tweet.referenced_tweets:
+                if ref.type == "quoted":
+                    quoted = client.get_tweet(id=ref.id, tweet_fields=["text"])
+                    claim = quoted.data.text
+                    claim_id = ref.id
+                    break
+            else:
+                # fallback if not a quoted tweet
+                claim = tweet.text.replace("@CheXbot", "").strip()
+                claim_id = tweet.id
+
         else:
             claim = tweet.text.replace("@CheXbot", "").strip()
+            claim_id = tweet.id
 
+        
         claim = unquote(claim)
-        import hashlib
-        claim_id = hashlib.sha256(claim.encode()).hexdigest()
 
         category = categorize_claim(claim)
         print(f"Detected claim category: {category}")
 
-        result = safe_verify(claim, verifier)
+        result = safe_verify(claim, verifier, claim_id)
 
         reply_text = verifier.format_result(result, claim_id)
         reply_text += f"\n\nCategory: {category}\nDo you agree or disagree?"
@@ -278,7 +286,8 @@ def check_mentions():
             log_failed_reply(tweet.id, author, claim, e)
 
 if __name__ == "__main__":
-    print("✅ Script reached main block")
+    print(f"✅ Script reached main block at {datetime.now()}")
+
     while True:
         print("🔄 Loop running. Calling check_mentions()...")
         check_mentions()

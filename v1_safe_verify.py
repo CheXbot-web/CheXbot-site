@@ -6,6 +6,7 @@ import os
 from transformers import pipeline
 from site_api import post_cache_update
 
+
 CACHE_FILE = "claim_cache.json"
 
 # Load or initialize claim cache
@@ -23,19 +24,19 @@ def save_cache():
     with open(CACHE_FILE, "w") as f:
         json.dump(claim_cache, f, indent=2)
 
-# Optional: still used internally for cache key only
+# Utility: Hash a claim text
 def hash_claim(claim):
     return hashlib.sha256(claim.encode()).hexdigest()
 
 # Main verification function
-def safe_verify(claim, verifier, claim_id, confidence_threshold=0.85):
-    # Use hash only for caching purposes
-    cache_key = hash_claim(claim)
+def safe_verify(claim, verifier, confidence_threshold=0.85):
+    claim_id = hash_claim(claim)
 
     # Return cached result if available
-    if cache_key in claim_cache:
-        return claim_cache[cache_key]
+    if claim_id in claim_cache:
+        return claim_cache[claim_id]
 
+    # Step 1: Run BART zero-shot classification
     print("🔎 Running BART classification on claim...")
     candidate_labels = ["TrueClaim", "FalseClaim"]
     classification = classifier(claim, candidate_labels)
@@ -50,6 +51,7 @@ def safe_verify(claim, verifier, claim_id, confidence_threshold=0.85):
         "gpt_summary": None
     }
 
+    # Step 2: Escalate if confidence is low
     if result["confidence"] < confidence_threshold:
         print("⚠️  Low confidence — checking search and GPT...")
         snippets = verifier.search_google_cse(claim)
@@ -61,11 +63,9 @@ def safe_verify(claim, verifier, claim_id, confidence_threshold=0.85):
             result["model"] = "gpt-enhanced"
             result["gpt_summary"] = gpt_summary
 
-    # Save in cache by hash key
-    claim_cache[cache_key] = result
+    # Cache and return result
+    claim_cache[claim_id] = result
     save_cache()
-
-    # Push to web with correct tweet-based ID
     post_cache_update(claim_id, result)
 
     return result

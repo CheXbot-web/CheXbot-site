@@ -4,6 +4,7 @@ import json
 import os
 import io
 import zipfile
+from db import get_fact_check_by_original_id
 # from config import UPDATE_API_KEY
 UPDATE_API_KEY = "jB5jdm44haN4txs4lULsPYYizgekrahniu"
 
@@ -29,12 +30,29 @@ def save_cache():
 def index():
     return "<h1>Welcome to CheXbot</h1><p>To view a claim, use /claim/&lt;claim_id&gt;</p>"
 
+
 @app.route("/claim/<claim_id>")
 def show_claim(claim_id):
+    # Try cache first (optional)
     result = claim_cache.get(claim_id)
+
     if not result:
-        abort(404)
+        # Fallback to DB
+        fact = get_fact_check_by_original_id(claim_id)
+        if not fact:
+            abort(404)
+        
+        result = {
+            "claim": fact["claim"],
+            "verdict": fact["verdict"],
+            "confidence": fact["confidence"],
+            "sources": [],  # You can load from claim_details if needed
+            "model": fact.get("model", "unknown"),
+            "gpt_summary": None
+        }
+
     return render_template("claim.html", result=result, claim_id=claim_id)
+
 
 # Optional debug route
 @app.route("/debug-cache")

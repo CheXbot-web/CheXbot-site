@@ -362,5 +362,26 @@
     "sources": [],
     "model": "bart-large-mnli",
     "gpt_summary": null
+  },
+  "16cd063c66d7f50f873457ccb0057a72068ab9a6c47db9a26ec474ca8e6479cb": {
+    "verdict": "True",
+    "confidence": 0.7467741966247559,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "64b547de6e2f361b7284bd06c6d3739496e308a7dcedd17c5cfe2b3d8aa59944": {
+    "verdict": "False",
+    "confidence": 0.6896578073501587,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
+  },
+  "8b53d48d2c3fdb7143b783bbe10e2a8b97ab28d26a60e3c35a2901a7989b73f0": {
+    "verdict": "False",
+    "confidence": 0.8839118480682373,
+    "sources": [],
+    "model": "bart-large-mnli",
+    "gpt_summary": null
   }
 }
