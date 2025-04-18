@@ -1,40 +1,15 @@
 # safe_verify.py
 
-import hashlib
-import json
-import os
 from transformers import pipeline
 from site_api import post_cache_update
-
-CACHE_FILE = "claim_cache.json"
-
-# Load or initialize claim cache
-if os.path.exists(CACHE_FILE):
-    with open(CACHE_FILE, "r") as f:
-        claim_cache = json.load(f)
-else:
-    claim_cache = {}
+from db import save_fact_check, save_claim_details 
 
 # Setup Hugging Face classifier
 classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
-# Utility: Save cache to disk
-def save_cache():
-    with open(CACHE_FILE, "w") as f:
-        json.dump(claim_cache, f, indent=2)
-
-# Optional: still used internally for cache key only
-def hash_claim(claim):
-    return hashlib.sha256(claim.encode()).hexdigest()
 
 # Main verification function
 def safe_verify(claim, verifier, claim_id, confidence_threshold=0.85):
-    # Use hash only for caching purposes
-    cache_key = hash_claim(claim)
-
-    # Return cached result if available
-    if cache_key in claim_cache:
-        return claim_cache[cache_key]
 
     print("🔎 Running BART classification on claim...")
     candidate_labels = ["TrueClaim", "FalseClaim"]
@@ -51,20 +26,17 @@ def safe_verify(claim, verifier, claim_id, confidence_threshold=0.85):
     }
 
     if result["confidence"] < confidence_threshold:
-        print("⚠️  Low confidence — checking search and GPT...")
         snippets = verifier.search_google_cse(claim)
         result["sources"] = snippets
         if verifier.use_gpt and snippets:
             gpt_summary = verifier.summarize_with_gpt(claim, snippets)
-            result["verdict"] = "See GPT summary"
-            result["confidence"] = 0.99
-            result["model"] = "gpt-enhanced"
-            result["gpt_summary"] = gpt_summary
-
-    # Save in cache by hash key
-    claim_cache[cache_key] = result
-    save_cache()
-
+            result.update({
+                "verdict":    "See GPT summary",
+                "confidence": 0.99,
+                "model":      "gpt-enhanced",
+                "gpt_summary": gpt_summary
+            })
+            save_claim_details(claim_id, gpt_summary, snippets)
     # Push to web with correct tweet-based ID
     post_cache_update(claim_id, result)
 

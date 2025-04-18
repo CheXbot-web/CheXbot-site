@@ -141,7 +141,11 @@
     {% endif %}
 
     <div id="summary-content" class="summary-box">
-        ⏳ Generating summary...
+        {% if result.gpt_summary %}
+            {{ result.gpt_summary }}
+        {% else %}
+            ⏳ Generating summary…  
+        {% endif %}
     </div>
 
     {% if claim_id.isdigit() %}
@@ -157,7 +161,7 @@
         <p>&copy; {{ now.year }} CheXbot Team</p>
     </footer>
 </div>
-
+{% if not result.gpt_summary %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const claimId = "{{ claim_id }}";
@@ -174,11 +178,12 @@
                     content.innerText = "⚠️ No summary available.";
                 }
             })
-            .catch(err => {
+            .catch(() => {
                 content.innerText = "❌ Failed to load summary.";
             });
     });
 </script>
+{% endif %}
 
 </body>
 </html>

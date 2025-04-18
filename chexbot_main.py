@@ -258,7 +258,26 @@ def check_mentions():
         reply_text = verifier.format_result(result, claim_id)
         reply_text += f"\n\nCategory: {category}\nDo you agree or disagree?"
 
-        try:
+        reply = client.create_tweet(
+                    text=reply_text,
+                    in_reply_to_tweet_id=tweet.id
+                )
+        reply_id = reply.data["id"]
+
+
+        save_fact_check(
+                original_tweet_id=tweet.id,
+                reply_id=reply_id,
+                username=author,
+                claim=claim,
+                verdict=result["verdict"],
+                confidence=result["confidence"]
+            )
+
+        last_seen_id = tweet.id
+        save_last_seen(tweet.id)
+
+        """ try:
             if DRY_RUN:
                 print(f"[DRY RUN] Would reply to @{author}:\n{reply_text}\n")
                 reply_id = "dry_run"
@@ -279,11 +298,11 @@ def check_mentions():
             )
 
             last_seen_id = tweet.id
-            save_last_seen(tweet.id)
+            save_last_seen(tweet.id) 
 
         except Exception as e:
             print(f"Failed to reply: {e}")
-            log_failed_reply(tweet.id, author, claim, e)
+            log_failed_reply(tweet.id, author, claim, e)"""
 
 if __name__ == "__main__":
     print(f"✅ Script reached main block at {datetime.now()}")

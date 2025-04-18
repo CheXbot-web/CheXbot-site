@@ -7,7 +7,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS fact_checks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             original_tweet_id TEXT,
-            chexbot_reply_id TEXT,
+            reply_id TEXT,
             username TEXT,
             claim TEXT,
             verdict TEXT,

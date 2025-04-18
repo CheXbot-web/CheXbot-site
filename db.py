@@ -66,7 +66,7 @@ def save_fact_check(original_tweet_id, reply_id, username, claim, verdict, confi
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute('''
-        INSERT INTO fact_checks (original_tweet_id, chexbot_reply_id, username, claim, verdict, confidence)
+        INSERT INTO fact_checks (original_tweet_id, reply_id, username, claim, verdict, confidence)
         VALUES (?, ?, ?, ?, ?, ?)
     ''', (original_tweet_id, reply_id, username, claim, verdict, confidence))
     conn.commit()
@@ -75,7 +75,7 @@ def save_fact_check(original_tweet_id, reply_id, username, claim, verdict, confi
 def get_fact_check_by_reply_id(reply_id):
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
-    c.execute('SELECT * FROM fact_checks WHERE chexbot_reply_id = ?', (reply_id,))
+    c.execute('SELECT * FROM fact_checks WHERE reply_id = ?', (reply_id,))
     row = c.fetchone()
     conn.close()
     return row
@@ -104,6 +104,11 @@ def get_claim_details(claim_id):
     return row
 
 def save_claim_details(claim_id, summary, sources=None):
+    import json
+    from datetime import datetime
+
+    sources_json = json.dumps(sources or [])
+
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute('''
@@ -113,7 +118,7 @@ def save_claim_details(claim_id, summary, sources=None):
             gpt_summary=excluded.gpt_summary,
             sources=excluded.sources,
             updated_at=CURRENT_TIMESTAMP
-    ''', (claim_id, summary, sources, datetime.now()))
+    ''', (claim_id, summary, sources_json, datetime.now()))
     conn.commit()
     conn.close()
 

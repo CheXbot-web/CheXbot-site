@@ -11,67 +11,48 @@ UPDATE_API_KEY = "jB5jdm44haN4txs4lULsPYYizgekrahniu"
 
 app = Flask(__name__)
 
-CACHE_FILE = "claim_cache.json"
-
-# Load cache at startup
-if os.path.exists(CACHE_FILE):
-    with open(CACHE_FILE, "r") as f:
-        claim_cache = json.load(f)
-    print(f"✅ Loaded {len(claim_cache)} cached claims")
-else:
-    claim_cache = {}
-    print("⚠️ No claim_cache.json found")
-
-def save_cache():
-    with open(CACHE_FILE, "w") as f:
-        json.dump(claim_cache, f, indent=2)
-
 
 @app.route("/")
 def index():
     return "<h1>Welcome to CheXbot</h1><p>To view a claim, use /claim/&lt;claim_id&gt;</p>"
 
-
 @app.route("/claim/<claim_id>")
 def show_claim(claim_id):
-    print(f"🧪 Incoming request for /claim/{claim_id}")
+    import json
+    from db import get_fact_check_by_original_id, get_claim_details
 
-    result = claim_cache.get(claim_id)
-
-    if not result:
-        # Fallback: try DB by tweet-based ID
-        try:
-            fact = get_fact_check_by_original_id(claim_id)
-            if fact:
-                fact = dict(fact)
-                result = {
-                    "claim": fact["claim"],
-                    "verdict": fact["verdict"],
-                    "confidence": fact["confidence"],
-                    "sources": [],
-                    "model": fact.get("model", "unknown"),
-                    "gpt_summary": None
-                }
-        except Exception as e:
-            print(f"⚠️ DB lookup failed: {e}")
-
-    if not result:
-        print(f"❌ No claim found for ID: {claim_id}")
+    # 1) Grab the base fact‑check row
+    fact = get_fact_check_by_original_id(claim_id)
+    if not fact:
         return "Claim not found.", 404
 
-    return render_template("claim.html", result=result, claim_id=claim_id, now=datetime.now())
-
-
-# Optional debug route
-@app.route("/debug-cache")
-def debug_cache():
-    return {
-        "total_cached": len(claim_cache),
-        "sample_keys": list(claim_cache.keys())[:5]
+    # 2) Build your result dict
+    result = {
+        "claim":      fact["claim"],
+        "verdict":    fact["verdict"],
+        "confidence": fact["confidence"],
+        "sources":    [],
+        "model":      "unknown",     # or convert to dict and .get if you add this column later
+        "gpt_summary": None
     }
+
+    # 3) Pull in any saved summary + sources
+    details = get_claim_details(claim_id)  # returns (gpt_summary, sources_json) or None
+    if details:
+        summary, sources_json = details
+        result["gpt_summary"] = summary
+        try:
+            result["sources"] = json.loads(sources_json or "[]")
+        except ValueError:
+            result["sources"] = []
+
+    # 4) Return it
+    return render_template("claim.html", result=result, claim_id=claim_id, now=datetime.now())
 
 @app.route("/update", methods=["POST"])
 def update_cache():
+    from db import save_fact_check, save_claim_details
+
     try:
         print("📬 /update endpoint was hit")
 
@@ -91,16 +72,32 @@ def update_cache():
 
         claim_id = data["claim_id"]
         result = data["result"]
-        claim_cache[claim_id] = result
 
-        save_cache()
+        # Save to fact_checks
+        save_fact_check(
+            original_tweet_id=claim_id,
+            reply_id=result.get("reply_id", ""),  # Optional
+            username=result.get("username", "unknown"),
+            claim=result.get("claim", ""),
+            verdict=result.get("verdict", "Unknown"),
+            confidence=result.get("confidence", 0.0)
+        )
 
-        print(f"✅ Updated cache with claim ID: {claim_id}")
+        # Save to claim_details
+        save_claim_details(
+            claim_id=claim_id,
+            summary=result.get("gpt_summary"),
+            sources=json.dumps(result.get("sources", []))
+        )
+
+        print(f"✅ Saved claim {claim_id} to DB (fact_checks + claim_details)")
         return jsonify({"message": "Cache updated"}), 200
 
     except Exception as e:
-        print(f"🔥 Exception in update_cache(): {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": "Server error", "detail": str(e)}), 500
+
 
 # Backup file transfer
 @app.route("/backup", methods=["GET"])
