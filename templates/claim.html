@@ -113,12 +113,11 @@
 <body>
 
 <div class="container">
-    <!-- Logo -->
-    <div class="logo-container">
-        <img src="{{ url_for('static', filename='logo.svg') }}" alt="CheXbot Logo" />
-    </div>
-
     <header>
+        <!-- Logo inside header -->
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="CheXbot Logo" />
+        </div>
         <h1>🛡️ CheXbot Claim Review</h1>
         <p class="subtitle">Fact-checking powered by AI, search, and your trust network.</p>
     </header>
